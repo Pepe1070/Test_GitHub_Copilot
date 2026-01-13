@@ -31,7 +31,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     <h5>Participants:</h5>
                     <ul>
                         ${details.participants.length > 0 
-                          ? details.participants.map(p => `<li>${p}</li>`).join('') 
+                          ? details.participants.map(p => `<li>${p} <button class="delete-btn" data-activity="${name}" data-email="${p}">×</button></li>`).join('') 
                           : '<li>No participants yet.</li>'}
                     </ul>
                 </div>
@@ -74,5 +74,28 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
+  // Handle delete button clicks
+  activitiesList.addEventListener("click", async (e) => {
+    if (e.target.classList.contains("delete-btn")) {
+      const activity = e.target.dataset.activity;
+      const email = e.target.dataset.email;
+      messageDiv.className = "hidden";
+
+      try {
+        const response = await fetch(`/activities/${activity}/unregister`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email }),
+        });
+        const result = await response.json();
+        messageDiv.textContent = result.message;
+        messageDiv.className = "message success";
+        loadActivities(); // Refresh to show updated participants
+      } catch (error) {
+        messageDiv.textContent = error.message || "Unregister failed.";
+        messageDiv.className = "message error";
+      }
+    }
+  });
+
   loadActivities();
-});

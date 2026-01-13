@@ -97,15 +97,21 @@ section h3 {
 .activity-card .participants li {
   padding: 5px 0;
   position: relative;
-  padding-left: 20px;
 }
 
-.activity-card .participants li::before {
-  content: '✓';
-  color: #2e7d32;
-  font-weight: bold;
-  position: absolute;
-  left: 0;
+.delete-btn {
+  background: none;
+  border: none;
+  color: #c62828;
+  font-size: 18px;
+  cursor: pointer;
+  margin-left: 10px;
+  padding: 0;
+  line-height: 1;
+}
+
+.delete-btn:hover {
+  color: #b71c1c;
 }
 
 .form-group {
